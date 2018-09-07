@@ -15,6 +15,10 @@ Selected columns, e.g. 'Age', 'Sex' etc should be analysed.
 
 Depending on results from data analysis, selected columns shuld be modified. Expected modification:
 
+### Dealing with missing values
+
+Rows with missing values should be skipped or these fields should be filled (e.g. mean interpolation)
+
 ### Tokenization
 
 Required for non-numeric values
