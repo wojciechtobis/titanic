@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 ##### Collecting data #####
 
@@ -15,13 +16,13 @@ columns = list(train_data);
 
 ##### Data analysis #####
 
-## missing values analysis
-#missingvalues = train_data.isna().sum();
-#missingvalues = missingvalues.sort_values(ascending=False);
-#print("missing values count in each column")
-#print(missingvalues);
+# missing values analysis
+missingvalues = train_data.isna().sum();
+missingvalues = missingvalues.sort_values(ascending=False);
+print("missing values count in each column")
+print(missingvalues);
 
-def column_analysis(column):
+def continuous_column_analysis(column):
     survived = train_data.loc[train_data["Survived"]==1][column].dropna();
     dead = train_data.loc[train_data["Survived"]==0][column].dropna();
     plt.hist(survived,bins=25,alpha=0.5,label=column+' for survived');
@@ -75,28 +76,57 @@ def stacked_bar_class(column):
     plt.title("Stacked '"+column+"' values for classes");
     plt.show();
 
+def values_percentage(column):
+    values = train_data[column].dropna();
+    valuesCount = len(values);
+    
+    # unique values
+    uniqueValues = values.unique();
+    uniqueValues.sort();
+    
+    # empty series for unique values
+    baseSeries = pd.Series(data=np.zeros(len(uniqueValues)), index=uniqueValues);
+    
+    survived = train_data.loc[train_data["Survived"]==1][column].dropna();
+    dead = train_data.loc[train_data["Survived"]==0][column].dropna();
+    
+    survivedCounts = pd.concat([baseSeries,survived.value_counts()], axis=1)[column].fillna(0);
+    deadCounts = pd.concat([baseSeries,dead.value_counts()], axis=1)[column].fillna(0);
+    
+    table = pd.concat([
+                survivedCounts.rename('Survived'),
+                deadCounts.rename('Dead')
+            ], axis=1) / valuesCount;
+    
+    sns.heatmap(table, annot=True, cmap="Greens");
+    plt.show();
+
+def quantized_column_analysis(column):
+    stacked_bar_columns(column);
+    stacked_bar_class(column);
+    values_percentage(column);    
+
 # 'Age' column analysis
-column_analysis("Age");
+continuous_column_analysis("Age");
 
 # 'Sex' column analysis
-stacked_bar_columns("Sex");
-stacked_bar_class("Sex");
+quantized_column_analysis("Sex");
 
 # 'Pclass' column analysis
-stacked_bar_columns("Pclass");
-stacked_bar_class("Pclass");
+quantized_column_analysis("Pclass");
 
 # 'SibSp' column analysis
-stacked_bar_columns("SibSp");
-stacked_bar_class("SibSp");
+quantized_column_analysis("SibSp");
 
 # 'Parch' column analysis
-stacked_bar_columns("Parch");
-stacked_bar_class("Parch");
+quantized_column_analysis("Parch");
 
 # 'Fare' column analysis
-column_analysis("Fare");
+continuous_column_analysis("Fare");
 
 # 'Embarked' column analysis
-stacked_bar_columns("Embarked");
-stacked_bar_class("Embarked");
+quantized_column_analysis("Embarked");
+
+## 'Name' column analysis
+## 'Ticket column analysis'
+## 'Cabin' column analysis
