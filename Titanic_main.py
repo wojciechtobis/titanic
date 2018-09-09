@@ -27,7 +27,7 @@ def continuous_column_analysis(column):
     dead = train_data.loc[train_data["Survived"]==0][column].dropna();
     plt.hist(survived,bins=25,alpha=0.5,label=column+' for survived');
     plt.hist(dead,bins=25,alpha=0.5,label=column+' for dead');
-    plt.legend(loc='upper right');
+    plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.05));
     plt.title("Histograms for '"+column+"'");
     plt.show();
 
@@ -50,7 +50,7 @@ def stacked_bar_columns(column):
     # stacked bar chart 
     survivedCounts.plot.bar(color="#006D2C",label="Survived");
     deadCounts.plot.bar(bottom=survivedCounts,color="#31A354",stacked=True,label="Dead");
-    plt.legend(loc='upper right');
+    plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.05));
     plt.title("Stacked classes for '"+column+"'");
     plt.show();
 
@@ -63,16 +63,17 @@ def stacked_bar_class(column):
     marginBottom = pd.Series(data=[0,0])
     
     #chart colors
-    colors = ["#006D2C","#31A354","#74C476","#556D2C","#55A354","#55C476","#DD6D2C","#DDA354","#DDC476"];
+    colors = ["#006D2C","#31A354","#74C476","#556D2C","#55A354","#55C476","#DD6D2C","#DDA354","#DDC476",
+              "#006D00","#31A300","#74C400","#556D55","#55A355","#55C455","#DD6DDD","#DDA3DD","#DDC4DD"];
 
     # stacked bar chart    
     for num, value in enumerate(uniqueValues):
         col = train_data.loc[train_data[column]==value]["Survived"].dropna();
-        colValues = col.value_counts().reindex([0,1]);
+        colValues = col.value_counts().reindex([0,1]).fillna(0);
         colValues.plot.bar(bottom=marginBottom,color=colors[num],stacked=True,label=value);
         marginBottom += colValues;
     
-    plt.legend(loc='upper right');
+    plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.05));
     plt.title("Stacked '"+column+"' values for classes");
     plt.show();
 
@@ -127,6 +128,16 @@ continuous_column_analysis("Fare");
 # 'Embarked' column analysis
 quantized_column_analysis("Embarked");
 
-## 'Name' column analysis
-## 'Ticket column analysis'
-## 'Cabin' column analysis
+# 'Name' column analysis
+name = train_data["Name"];
+
+# extract title from name
+title = [[y for y in x.split(' ') if '.' in y][0] for x in name];
+
+# titles analysis
+train_data["Title"] = pd.Series(data=title);
+quantized_column_analysis("Title");    
+train_data = train_data.drop(columns=["Title"], axis=1);
+
+# 'Ticket column analysis'
+# 'Cabin' column analysis
