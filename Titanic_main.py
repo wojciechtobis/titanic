@@ -5,4 +5,4 @@ import Titanic_feature_engineering as tfe
 #tda.complex_analysis();
 
 ##### Feature engineering #####
-tfe.getFeatures();
+features = tfe.get_features();
