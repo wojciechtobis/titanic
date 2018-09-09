@@ -139,5 +139,15 @@ train_data["Title"] = pd.Series(data=title);
 quantized_column_analysis("Title");    
 train_data = train_data.drop(columns=["Title"], axis=1);
 
-# 'Ticket column analysis'
+# 'Ticket' column analysis
+    
 # 'Cabin' column analysis
+cabin = train_data["Cabin"];
+
+# check if cabin exists
+isCabin = [0 if x!=x else 1 for x in cabin];
+
+# isCabin analysis
+train_data["IsCabin"] = pd.Series(data=isCabin)
+quantized_column_analysis("IsCabin");    
+train_data = train_data.drop(columns=["IsCabin"], axis=1);
