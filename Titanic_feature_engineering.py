@@ -72,5 +72,5 @@ def get_features():
     isCabin = [0 if x!=x else 1 for x in cabin];
     features["IsCabin"] = pd.Series(data=isCabin);
 
-    return features
+    return features, train_data["Survived"];
     
