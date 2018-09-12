@@ -11,16 +11,16 @@ features, results = tfe.get_features();
 ##### Feature selection #####
 
 ##### Modeling #####
-tm.knn_results(features,results);
-tm.logistic_regression_results(features,results);
-tm.svm_results(features,results);
-tm.decission_tree_results(features,results);
-tm.random_forest_results(features,results);
+tm.knn_show_results(features,results);
+tm.logistic_regression_show_results(features,results);
+tm.svm_show_results(features,results);
+tm.decission_tree_show_results(features,results);
+tm.random_forest_show_results(features,results);
 
 
 # Models' parameters analysis
-knnResults = tm.knn_analysis(features,results);
-logisticRegressionResults = tm.logistic_regression_analysis(features,results);
-svmResults = tm.svm_analysis(features,results);
-decisionTreeResults = tm.decission_tree_analysis(features,results);
-randomForestResults = tm.random_forest_analysis(features,results);
+knnResults = tm.knn_params_analysis(features,results);
+logisticRegressionResults = tm.logistic_regression_params_analysis(features,results);
+svmResults = tm.svm_params_analysis(features,results);
+decisionTreeResults = tm.decission_tree_params_analysis(features,results);
+randomForestResults = tm.random_forest_params_analysis(features,results);
