@@ -21,6 +21,10 @@ def get_labeled_column(column):
     labeledList = preproc.LabelEncoder().fit_transform(train_data[column]);
     return pd.Series(labeledList);   
 
+def get_one_hot_encoded_column(column):
+    oneHotEncodedList = preproc.OneHotEncoder().fit_transform(train_data[column].values.reshape(-1, 1)).toarray();
+    return oneHotEncodedList;
+
 def get_features():
     global train_data;
     global features;
@@ -54,7 +58,17 @@ def get_features():
     # fill missing values with 'S' - the most frequent value 
     train_data["FilledEmbarked"] = train_data["Embarked"].fillna('S');
     train_data["LabeledEmbarked"] = get_labeled_column("FilledEmbarked");
+    
+    # labeledEmbarked can be scaled
     features["Embarked"] = get_minmax_scaled_column("LabeledEmbarked");
+    features["Embarked"] = train_data["LabeledEmbarked"];
+    
+    # one hot
+#    oneHotEncodedList = get_one_hot_encoded_column("LabeledEmbarked");
+#    features["Embarked_C"] = pd.Series(oneHotEncodedList[:,0]);
+#    features["Embarked_Q"] = pd.Series(oneHotEncodedList[:,1]);
+#    features["Embarked_S"] = pd.Series(oneHotEncodedList[:,2]);
+    
     train_data = train_data.drop(columns=["FilledEmbarked","LabeledEmbarked"], axis=1);
     
     # 'Name' column analysis
