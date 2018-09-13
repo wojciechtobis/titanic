@@ -37,6 +37,12 @@ def get_features():
     features["Age"] = get_standarized_column("FilledAge");
     train_data = train_data.drop(columns=["FilledAge"], axis=1);
     
+    # quantized 'Age'
+#    train_data["QuantizedAge"] = pd.qcut(train_data["Age"],10,labels=False).fillna(10);
+#    features["Age"] = get_minmax_scaled_column("QuantizedAge");
+#    train_data = train_data.drop(columns=["QuantizedAge"], axis=1);
+    
+    
     # 'Sex' column analysis
     train_data["LabeledSex"] = get_labeled_column("Sex");
     features["Sex"] = get_minmax_scaled_column("LabeledSex");
@@ -53,6 +59,11 @@ def get_features():
     
     # 'Fare' column analysis    
     features["Fare"] = get_standarized_column("Fare");
+    
+    # quantized 'Fare'
+#    train_data["QuantizedFare"] = pd.qcut(train_data["Fare"],10,labels=False).fillna(10);
+#    features["Age"] = get_minmax_scaled_column("QuantizedFare");
+#    train_data = train_data.drop(columns=["QuantizedFare"], axis=1);
     
     # 'Embarked' column analysis
     # fill missing values with 'S' - the most frequent value 

@@ -108,6 +108,11 @@ def complex_analysis():
     # 'Age' column analysis
     continuous_column_analysis("Age");
     
+    # quantized 'Age' analysis
+    train_data["QuantizedAge"] = pd.qcut(train_data["Age"],10,labels=False).fillna(10);
+    quantized_column_analysis("QuantizedAge");    
+    train_data = train_data.drop(columns=["QuantizedAge"], axis=1);
+    
     # 'Sex' column analysis
     quantized_column_analysis("Sex");
     
@@ -122,6 +127,11 @@ def complex_analysis():
     
     # 'Fare' column analysis
     continuous_column_analysis("Fare");
+    
+    # quantized 'Fare' analysis
+    train_data["QuantizedFare"] = pd.qcut(train_data["Fare"],10,labels=False).fillna(10);
+    quantized_column_analysis("QuantizedFare");    
+    train_data = train_data.drop(columns=["QuantizedFare"], axis=1);
     
     # 'Embarked' column analysis
     quantized_column_analysis("Embarked");
