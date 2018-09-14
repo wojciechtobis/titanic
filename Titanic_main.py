@@ -32,13 +32,4 @@ randomForestResults = tm.random_forest_params_analysis(features,results);
 ##### Results #####
 test_features = tr.calculate_features();
 test_results = tr.calculate_results(test_features);
-train_results = tr.calculate_results(features);
-
-#train_results["Survived"] =  results
-
-knn_score = accuracy_score(results,train_results["KNN"]);
-lr_score = accuracy_score(results,train_results["Logistic Regression"]);
-svc_score = accuracy_score(results,train_results["SVM"]);
-dt_score = accuracy_score(results,train_results["Logistic Regression"]);
-rf_score = accuracy_score(results,train_results["Random Forest"]);
-ens_score = accuracy_score(results,train_results["Median"]);
+tr.save_results(test_results["Random Forest"]);

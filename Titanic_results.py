@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.externals import joblib
 import sklearn.preprocessing as preproc
 import numpy as np
+import csv
 
 test_data = pd.read_csv('Data/test.csv');
 features = pd.DataFrame();
@@ -148,4 +149,15 @@ def calculate_results(features):
     features["Median"] = np.median(results,axis=0);
     
     return features;
+
+def save_results(results):
+    passengerIds = test_data["PassengerId"];
     
+    resultsToSave = [[passengerIds[i], int(results[i])] for i in range(len(passengerIds))];
+    
+    fileName = 'Data/results.csv';
+    f = open(fileName, 'w', newline='');
+    writer = csv.writer(f);
+    writer.writerow(['PassengerId','Survived']);
+    writer.writerows(resultsToSave);
+    f.close();

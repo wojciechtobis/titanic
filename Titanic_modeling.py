@@ -123,8 +123,8 @@ def cfl_param_optimisation(clf,X,y,params):
 def save_clf(clf,X,y,name):
     picklesDir = 'Pickles';
     name = picklesDir + '/' + name + '_clf.pkl';
-    trainedClf = train_clf(clf,X,y,1)['clf'];
-    joblib.dump(trainedClf,name);
+    clf.fit(X,y);
+    joblib.dump(clf,name);
     
 
 def show_results(clf,X,y,name):
