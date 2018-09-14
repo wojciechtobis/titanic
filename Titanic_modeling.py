@@ -1,6 +1,7 @@
 from sklearn import neighbors, linear_model, svm, tree, ensemble
 from sklearn.metrics import accuracy_score, roc_curve, auc
 from sklearn.model_selection import train_test_split
+from sklearn.externals import joblib
 from random import randint
 import matplotlib.pyplot as plt
 import numpy as np
@@ -119,15 +120,24 @@ def cfl_param_optimisation(clf,X,y,params):
 
     return sumup;
 
-def show_results(clf,X,y):
-    print(clf_results(clf,X,y));
-    clf_roc(clf,X,y);
+def save_clf(clf,X,y,name):
+    picklesDir = 'Pickles';
+    name = picklesDir + '/' + name + '_clf.pkl';
+    trainedClf = train_clf(clf,X,y,1)['clf'];
+    joblib.dump(trainedClf,name);
+    
+
+def show_results(clf,X,y,name):
+    print(name);
+#    print(clf_results(clf,X,y));
+#    clf_roc(clf,X,y);
+    save_clf(clf,X,y,name);
+    
 
 # KNN
 def knn_show_results(X,y):
-    print("KNN");
     knn = neighbors.KNeighborsClassifier();
-    show_results(knn,X,y);
+    show_results(knn,X,y,"KNN");
     
 def knn_params_analysis(X,y):
     print("KNN analysis");
@@ -144,10 +154,9 @@ def knn_params_analysis(X,y):
     return cfl_param_optimisation(clf,X,y,params);
 
 # Logistic Regression
-def logistic_regression_show_results(X,y):
-    print("Logistic Regression");
+def logistic_regression_show_results(X,y):    
     lr = linear_model.LogisticRegression(penalty='l1', tol=0.1, C=10, max_iter=200);    
-    show_results(lr,X,y);
+    show_results(lr,X,y,"Logistic Regression");
     
 def logistic_regression_params_analysis(X,y):
     print("Logistic Regression analysis");
@@ -165,9 +174,8 @@ def logistic_regression_params_analysis(X,y):
     
 # SVM
 def svm_show_results(X,y):
-    print("SVM");
     svc = svm.SVC(kernel='rbf', gamma=0.01, C=1000);
-    show_results(svc,X,y);
+    show_results(svc,X,y,"SVM");
     
 def svm_params_analysis(X,y):
     print("SVM analysis");
@@ -185,9 +193,8 @@ def svm_params_analysis(X,y):
     
 # Decision Tree
 def decission_tree_show_results(X,y):
-    print("Decision Tree");
     dt = tree.DecisionTreeClassifier(criterion='entropy', max_depth=4);
-    show_results(dt,X,y);
+    show_results(dt,X,y,"Decision Tree");
     
 def decission_tree_params_analysis(X,y):
     print("Decision Tree analysis");
@@ -205,9 +212,8 @@ def decission_tree_params_analysis(X,y):
     
 # Random Forest
 def random_forest_show_results(X,y):
-    print("Random Forest");    
     rf = ensemble.RandomForestClassifier(criterion='entropy', max_features='log2', max_depth=4, min_samples_split=3);
-    show_results(rf,X,y);
+    show_results(rf,X,y,"Random Forest");
 
 def random_forest_params_analysis(X,y):
     print("Random Forest analysis"); 
